@@ -4,12 +4,12 @@ import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.MediaMetadataRetriever;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.util.Log;
 
+import java.io.File;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,13 +22,10 @@ import ml.blueberry.lingling.bean.PictureInfo;
  */
 
 public class CollectAllPictureUtil {
-    private MediaMetadataRetriever retriever;
-
     private int mDefaultWidth=300;
     private int mDefaultHeight=300;
 
     public CollectAllPictureUtil() {
-        retriever = new MediaMetadataRetriever();
     }
 
     public void setDefaultWidth(int defaultWidth) {
@@ -52,11 +49,12 @@ public class CollectAllPictureUtil {
         for (int i = 0; i < 20; i++) {
 
             PictureInfo picInfo = new PictureInfo();
-            picInfo.setUrl(cursor.getString(0));
+            File file=new File(cursor.getString(0));
+            picInfo.setUri(Uri.fromFile(file));
             picInfo.setTitle(cursor.getString(1));
             picInfo.setMimeType(cursor.getString(2));
             picInfo.setSize(formatSizeOfFile(cursor.getString(3)));
-            picInfo.setThumbNail(getImageThumbnail(cursor.getString(0),mDefaultWidth,mDefaultWidth));
+            picInfo.setThumbNail(getImageThumbnail(cursor.getString(0),mDefaultWidth,mDefaultHeight));
             videoInfos.add(picInfo);
             cursor.moveToNext();
         }

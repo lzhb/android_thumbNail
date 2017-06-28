@@ -1,6 +1,7 @@
 package ml.blueberry.lingling.bean;
 
 import android.graphics.Bitmap;
+import android.net.Uri;
 
 /**
  * Created by lzb on 2017/6/26.
@@ -12,14 +13,14 @@ public class VideoInfo {
     private String duration;
     private String resolutionRation;//分辨率
     private Bitmap thumbNail;//缩率图
-    private String url;//路径
+    private Uri uri;//路径
 
-    public String getUrl() {
-        return url;
+    public Uri getUri() {
+        return uri;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setUri(Uri uri) {
+        this.uri = uri;
     }
 
     public String getResolutionRation() {

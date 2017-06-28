@@ -48,7 +48,7 @@ public class CollectAllVideoUtil {
                     vInfo.setSize(formatSizeOfFile(fileS));
                     vInfo.setDuration(mExtractVideoInfoUtil.getVideoLength());
                     vInfo.setThumbNail(mExtractVideoInfoUtil.extractFrames());
-                    vInfo.setUrl(files[i].getAbsolutePath());
+                    vInfo.setUri(Uri.fromFile(files[i]));
                     videoInfos.add(vInfo);
                 }
             }
@@ -69,7 +69,8 @@ public class CollectAllVideoUtil {
         for (int i = 0; i < count; i++) {
 
             VideoInfo vInfo = new VideoInfo();
-            vInfo.setUrl(cursor.getString(0));
+            File file=new File(cursor.getString(0));
+            vInfo.setUri(Uri.fromFile(file));
             vInfo.setTitle(cursor.getString(1));
             vInfo.setDuration(cursor.getString(2));
             vInfo.setMimeType(cursor.getString(3));
