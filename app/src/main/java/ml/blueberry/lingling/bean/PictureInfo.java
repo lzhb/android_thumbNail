@@ -1,15 +1,11 @@
 package ml.blueberry.lingling.bean;
 
-import android.graphics.Bitmap;
-import android.net.Uri;
-
 /**
  * Created by Administrator on 2017/6/28.
  */
 public class PictureInfo {
     private String title;
-    private Uri uri;//路径
-    private Bitmap thumbNail;//缩略图
+    private String absolutePath;//路径
     private String mimeType;//格式
     private String size;
 
@@ -28,21 +24,15 @@ public class PictureInfo {
     public void setTitle(String title) {
         this.title = title;
     }
-    public Uri getUri() {
-        return uri;
+
+    public String getAbsolutePath() {
+        return absolutePath;
     }
 
-    public void setUri(Uri uri) {
-        this.uri = uri;
+    public void setAbsolutePath(String absolutePath) {
+        this.absolutePath = absolutePath;
     }
 
-    public Bitmap getThumbNail() {
-        return thumbNail;
-    }
-
-    public void setThumbNail(Bitmap thumbNail) {
-        this.thumbNail = thumbNail;
-    }
 
     public String getSize() {
         return size;

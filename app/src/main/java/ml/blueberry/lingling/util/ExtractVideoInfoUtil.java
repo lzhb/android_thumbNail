@@ -54,7 +54,7 @@ public class ExtractVideoInfoUtil {
      * @param bitmap
      * @param name
      * @param outPutFileDirPath
-     * @return
+     * @return path
      */
     private String saveImageToSD(Bitmap bitmap, String name, String outPutFileDirPath) {
         if (bitmap == null) {
@@ -101,7 +101,16 @@ public class ExtractVideoInfoUtil {
     }
 
     public String getMimetype() {
-        return mMetadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_MIMETYPE);
+        String mimeType= mMetadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_MIMETYPE);
+        //TODO 使用split
+        //        String[] ss=mimeType.toLowerCase().split("/");
+        //        return ss[ss.length-1];
+        if(mimeType.endsWith("mpeg")){
+            return "mpeg";
+        }else if(mimeType.endsWith("vivo")){
+            return "vivo";
+        }
+        return "mp4";
     }
 
     public void release() {

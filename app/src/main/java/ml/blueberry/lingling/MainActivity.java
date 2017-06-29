@@ -30,6 +30,8 @@ private final String dirPath = "/storage/emulated/0/1Videoshow/tmp";
     private List<VideoInfo> mListInfo;
     private List<PictureInfo> mPicListInfo;
 
+    private VideoListViewAdapter videoListViewAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,16 +45,31 @@ private final String dirPath = "/storage/emulated/0/1Videoshow/tmp";
         mColletAllPictureutil=new CollectAllPictureUtil();
 
 //        mListInfo=mColletAllVideoutil.getVideoInfoList(dirPath);
-//        mListInfo=mColletAllVideoutil.getVideoInfoListFromAll(this);
-        mPicListInfo=mColletAllPictureutil.getPictureInfoListFromAll(this);
-        listView.setAdapter(new PicListViewAdapter(mPicListInfo));
 
+//                mPicListInfo=mColletAllPictureutil.getPictureInfoListFromAll(this);
+//                listView.setAdapter(new PicListViewAdapter(mPicListInfo));
+        new MyThread().start();
     }
 
     private void initView() {
         listView=(ListView)this.findViewById(R.id.MyListView);    //将listView与布局对象关联
     }
 
+    public void refreshVideo(View view) {
+        mListInfo=mColletAllVideoutil.getVideoInfoListFromAll(this);
+        videoListViewAdapter = new VideoListViewAdapter(mListInfo);
+        listView.setAdapter(videoListViewAdapter);
+    }
+
+    public class MyThread extends Thread {
+
+        public void run(){
+            //预处理视频的缩略图
+            CollectAllVideoUtil collectAllVideoUtil = new CollectAllVideoUtil();
+            List<VideoInfo> videoInfoList = collectAllVideoUtil.getVideoInfoListFromAll(getApplicationContext());
+            videoListViewAdapter = new VideoListViewAdapter(videoInfoList);
+        }
+    }
 
     public class VideoListViewAdapter extends BaseAdapter {
         View[] itemViews;
@@ -87,22 +104,24 @@ private final String dirPath = "/storage/emulated/0/1Videoshow/tmp";
             TextView title = (TextView) itemView.findViewById(R.id.item_title);
             title.setText(vInfo.getTitle());
             TextView info = (TextView) itemView.findViewById(R.id.item_info);
-            String duration = vInfo.getDuration();
+            long duration = vInfo.getDuration();
             String ratio = vInfo.getResolutionRation();
             String mimeType = vInfo.getMimeType();
             String size=vInfo.getSize();
-            String uri=vInfo.getUri().toString();
+            String filePath=vInfo.getFilePath();
+            String thumbPath=vInfo.getThumbPath();
             StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.append("duration:").append(duration).append(" ");
+            stringBuilder.append("duration:").append(duration).append("毫秒 ");
             stringBuilder.append("ratio:").append(ratio).append("  ");
             stringBuilder.append("mimeType:").append(mimeType).append(" ");
             stringBuilder.append("size:").append(size).append(" ");
-            stringBuilder.append("uri:").append(uri);
+            stringBuilder.append("filePath:").append(filePath).append(" ");
+            stringBuilder.append("thumbPath:").append(filePath);
 
             info.setText(stringBuilder.toString());
 
-            ImageView thumbNail = (ImageView) itemView.findViewById(R.id.item_img);
-            thumbNail.setImageBitmap(vInfo.getThumbNail());
+//            ImageView thumbNail = (ImageView) itemView.findViewById(R.id.item_img);
+//            thumbNail.setImageBitmap(vInfo.getThumbNail());
             return itemView;
         }
 
@@ -148,14 +167,14 @@ private final String dirPath = "/storage/emulated/0/1Videoshow/tmp";
             TextView info = (TextView) itemView.findViewById(R.id.item_info);
             String mimeType = picInfo.getMimeType();
             String size=picInfo.getSize();
-            String uri=picInfo.getUri().toString();
+            String path=picInfo.getAbsolutePath();
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.append("mimeType:").append(mimeType).append(" ");
             stringBuilder.append("size:").append(size).append(" ");
-            stringBuilder.append("uri:").append(uri);
+            stringBuilder.append("path:").append(path);
             info.setText(stringBuilder.toString());
-            ImageView thumbNail = (ImageView) itemView.findViewById(R.id.item_img);
-            thumbNail.setImageBitmap(picInfo.getThumbNail());
+//            ImageView thumbNail = (ImageView) itemView.findViewById(R.id.item_img);
+//            thumbNail.setImageBitmap(picInfo.getThumbNail());
             return itemView;
         }
 

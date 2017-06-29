@@ -7,8 +7,15 @@
     android:orientation="vertical"
     tools:context="ml.blueberry.lingling.MainActivity">
 
-    <ListView android:layout_width="wrap_content"
+    <Button
+        android:id="@+id/button"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/MyListView">
+        android:onClick="refreshVideo"
+        android:text="refreshVideo"/>
+
+    <ListView android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:id="@+id/MyListView">
     </ListView>
 </LinearLayout>

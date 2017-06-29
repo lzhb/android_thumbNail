@@ -1,8 +1,5 @@
 package ml.blueberry.lingling.bean;
 
-import android.graphics.Bitmap;
-import android.net.Uri;
-
 /**
  * Created by lzb on 2017/6/26.
  */
@@ -10,19 +7,18 @@ public class VideoInfo {
     private String title;
     private String mimeType;//视频格式
     private String size;
-    private String duration;
+    private long duration; //毫秒
     private String resolutionRation;//分辨率
-    private Bitmap thumbNail;//缩率图
-    private Uri uri;//路径
+    private String filePath;
+    private String thumbPath;
 
-    public Uri getUri() {
-        return uri;
+    public long getDuration() {
+        return duration;
     }
 
-    public void setUri(Uri uri) {
-        this.uri = uri;
+    public void setDuration(long duration) {
+        this.duration = duration;
     }
-
     public String getResolutionRation() {
         return resolutionRation;
     }
@@ -54,21 +50,20 @@ public class VideoInfo {
     public void setSize(String size) {
         this.size = size;
     }
-
-    public String getDuration() {
-        return duration;
+    public String getFilePath() {
+        return filePath;
     }
 
-    public void setDuration(String duration) {
-        this.duration = duration;
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
     }
 
-    public Bitmap getThumbNail() {
-        return thumbNail;
+
+    public String getThumbPath() {
+        return thumbPath;
     }
 
-    public void setThumbNail(Bitmap thumbNail) {
-        this.thumbNail = thumbNail;
+    public void setThumbPath(String thumbPath) {
+        this.thumbPath = thumbPath;
     }
-
 }

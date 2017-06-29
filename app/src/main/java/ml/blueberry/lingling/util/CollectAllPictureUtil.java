@@ -9,7 +9,6 @@ import android.net.Uri;
 import android.provider.MediaStore;
 import android.util.Log;
 
-import java.io.File;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -47,14 +46,11 @@ public class CollectAllPictureUtil {
         int count = cursor.getCount();
         Log.d("ling", "getPictureInfoListFromAll count : "+count);
         for (int i = 0; i < 20; i++) {
-
             PictureInfo picInfo = new PictureInfo();
-            File file=new File(cursor.getString(0));
-            picInfo.setUri(Uri.fromFile(file));
+            picInfo.setAbsolutePath(cursor.getString(0));
             picInfo.setTitle(cursor.getString(1));
-            picInfo.setMimeType(cursor.getString(2));
+            picInfo.setMimeType(formatMimeType(cursor.getString(2)));
             picInfo.setSize(formatSizeOfFile(cursor.getString(3)));
-            picInfo.setThumbNail(getImageThumbnail(cursor.getString(0),mDefaultWidth,mDefaultHeight));
             videoInfos.add(picInfo);
             cursor.moveToNext();
         }
@@ -92,6 +88,17 @@ public class CollectAllPictureUtil {
         return s;
     }
 
+    private String formatMimeType(String mimeType){
+        String type="jpg";
+        if(mimeType.endsWith("jpg")){
+            return type;
+        }else if(mimeType.endsWith("jpeg")){
+            return "jpeg";
+        }else if(mimeType.endsWith("png")){
+            return "png";
+        }
+        return type;
+    }
     /**
      * 根据指定的图像路径和大小来获取缩略图
      * @param width 指定输出图像的宽度
